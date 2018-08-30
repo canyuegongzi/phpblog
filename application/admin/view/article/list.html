@@ -1,0 +1,205 @@
+{include file="public/_head" /}
+<!-- Main Container -->
+<div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+
+        <!-- Page Sidebar -->
+        {include file="public/_left" /}
+        <!-- /Page Sidebar -->
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Page Breadcrumb -->
+            <div class="page-breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>&nbsp;文章管理
+                    </li>
+                    <li>文章列表</li>
+                </ul>
+            </div>
+            <!-- /Page Breadcrumb -->
+            <!-- Page Body -->
+            <div class="page-body">
+                <a href="{:url('admin/article/add')}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i>&nbsp;添加文章</a>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="widget">
+                            <div class="widget-header">
+                                <span class="widget-caption">{$catename|default="文章"}列表</span>
+                                <div class="widget-buttons">
+                                    {$articles->render()|raw}
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>文章标题</th>
+                                        <th>所属导航</th>
+                                        <th>推荐</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    {volist name="articles" id="vo"}
+                                    <tr>
+                                        <td>{$vo.id}</td>
+                                        <td><a href="{:url('admin/comment/all', ['id' => $vo.id])}">{$vo.title}</a></td>
+                                        <td>{$vo.cate.catename}</td>
+                                        <td>{if $vo.is_top == 1}已推荐{else /}未推荐{/if}</td>
+                                        <td>{if $vo.status == 1}上架{else /}下架{/if}</td>
+                                        <td>
+                                            {if $vo.is_top == 1}
+                                            <a href="#" class="btn btn-sm btn-darkorange article-top" istop="{$vo.is_top}" dataid="{$vo.id}">取消推荐</a>
+                                            {else /}
+                                            <a href="#" class="btn btn-sm btn-azure article-top" istop="{$vo.is_top}" dataid="{$vo.id}">推荐</a>
+                                            {/if}
+                                            <a href="{:url('admin/article/edit', ['id' => $vo.id])}" class="btn btn-sm btn-warning">编辑</a>
+                                            <a href="#" class="btn btn-sm btn-danger article-del" dataid="{$vo.id}">删除</a>
+                                            {if $vo.status == 1}
+                                            <a href="#" class="btn btn-sm btn-default article-up" dataid="{$vo.id}" status="{$vo.status}">下架</a>
+                                            {else /}
+                                            <a href="#" class="btn btn-sm btn-blue article-up" dataid="{$vo.id}" status="{$vo.status}">上架</a>
+                                            {/if}
+                                        </td>
+                                    </tr>
+                                    {/volist}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Body -->
+        </div>
+        <!-- /Page Content -->
+
+    </div>
+    <!-- /Page Container -->
+    <!-- Main Container -->
+
+</div>
+
+{include file="public/_js" /}
+<script>
+    $(function () {
+        $('.article-top').click(function () {
+            var id = $(this).attr('dataid');
+            var is_top = $(this).attr('istop');
+            if (is_top == 1) {
+                var msg = '确定取消推荐吗？';
+            }else {
+                var msg = '确定推荐吗？';
+            }
+            layer.confirm(msg, {
+                title:'推荐操作',
+                icon:3
+            }, function (index) {
+                layer.close(index);
+                $.ajax({
+                    url:"{:url('admin/article/top')}",
+                    type:'post',
+                    data:{id:id, is_top:is_top},
+                    dataType:'json',
+                    success:function (data) {
+                        if (data.code == 1) {
+                            layer.msg(data.msg, {
+                                icon:6,
+                                time:2000
+                            }, function () {
+                                location.href = data.url;
+                            });
+                        }else {
+                            layer.open({
+                                title:'操作失败',
+                                content:data.msg,
+                                icon:5,
+                                anim:6
+                            });
+                        }
+                    }
+                });
+            });
+            return false;
+        });
+
+        $('.article-del').click(function () {
+            var id = $(this).attr('dataid');
+            layer.confirm('确定删除吗？', {
+                title:'删除文章',
+                icon:3
+            }, function (index) {
+                layer.close(index);
+                $.ajax({
+                    url:"{:url('admin/article/del')}",
+                    type:'post',
+                    data:{id:id},
+                    dataType:'json',
+                    success:function (data) {
+                        if (data.code == 1) {
+                            layer.msg(data.msg, {
+                                icon:6,
+                                time:2000
+                            }, function () {
+                                location.href = data.url;
+                            });
+                        }else {
+                            layer.open({
+                                title:'删除文章失败',
+                                content:data.msg,
+                                icon:5,
+                                anim:6
+                            });
+                        }
+                    }
+                });
+            });
+            return false;
+        });
+
+        $('.article-up').click(function () {
+            var id = $(this).attr('dataid');
+            var status = $(this).attr('status');
+            if (status == 1) {
+                var msg = '确定下架吗？';
+            }else {
+                var msg = '确定上架吗？';
+            }
+            layer.confirm(msg, {
+                title:'上架操作',
+                icon:3
+            }, function (index) {
+                layer.close(index);
+                $.ajax({
+                    url:"{:url('admin/article/up')}",
+                    type:'post',
+                    data:{id:id, status:status},
+                    dataType:'json',
+                    success:function (data) {
+                        if (data.code == 1) {
+                            layer.msg(data.msg, {
+                                icon:6,
+                                time:2000
+                            }, function () {
+                                location.href = data.url;
+                            });
+                        }else {
+                            layer.open({
+                                title:'操作失败',
+                                content:data.msg,
+                                icon:5,
+                                anim:6
+                            });
+                        }
+                    }
+                });
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+<!--  /Body -->
+</html>

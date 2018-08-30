@@ -12,7 +12,7 @@ class Cate extends Base
     //栏目列表
     public function list()
     {
-        $cates = model('Cate')->order('sort', 'asc')->paginate(5);
+        $cates = model('Cate')->order('sort', 'asc')->paginate(10);
         //定义一个模板数据变量
         $viewData = [
             'cates' => $cates
@@ -32,7 +32,7 @@ class Cate extends Base
             $result = model('Cate')->add($data);
             if ($result == 1) {
                 $this->success('栏目添加成功！', 'admin/cate/list');
-            } else {
+            }else {
                 $this->error($result);
             }
         }
@@ -49,7 +49,7 @@ class Cate extends Base
         $result = model('Cate')->sort($data);
         if ($result == 1) {
             $this->success('排序成功！', 'admin/cate/list');
-        } else {
+        }else {
             $this->error($result);
         }
     }
@@ -65,7 +65,7 @@ class Cate extends Base
             $result = model('Cate')->edit($data);
             if ($result == 1) {
                 $this->success('栏目编辑成功！', 'admin/cate/list');
-            } else {
+            }else {
                 $this->error($result);
             }
         }
@@ -81,14 +81,14 @@ class Cate extends Base
     //栏目删除
     public function del()
     {
-        $cateInfo = model('Cate')->with('article,article.comments')->find(input('post.id'));
-        foreach ($cateInfo['article'] as $k => $v) {
+        $cateInfo = model('Cate')/*->with('article,article.comments')*/->find(input('post.id'));
+        /*foreach ($cateInfo['article'] as $k => $v) {
             $v->together('comments')->delete();
-        }
-        $result = $cateInfo->together('article')->delete();
+        }*/
+        $result = $cateInfo/*->together('article')*/->delete();
         if ($result) {
             $this->success('栏目删除成功！', 'admin/cate/list');
-        } else {
+        }else {
             $this->error('栏目删除失败！');
         }
     }

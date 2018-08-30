@@ -3,12 +3,19 @@
 namespace app\common\model;
 
 use think\Model;
-
 use think\model\concern\SoftDelete;
+
 class Cate extends Model
 {
     //软删除
     use SoftDelete;
+
+    /*//关联文章
+    public function article()
+    {
+        return $this->hasMany('Article', 'cate_id', 'id');
+    }*/
+
     //栏目添加
     public function add($data)
     {
@@ -23,6 +30,7 @@ class Cate extends Model
             return '栏目添加失败！';
         }
     }
+
     //栏目排序
     public function sort($data)
     {
@@ -48,6 +56,7 @@ class Cate extends Model
             return $validate->getError();
         }
         $cateInfo = $this->find($data['id']);
+        //var_dump($cateInfo);
         $cateInfo->catename = $data['catename'];
         $result = $cateInfo->save();
         if ($result) {
