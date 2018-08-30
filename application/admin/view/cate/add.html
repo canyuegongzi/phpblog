@@ -1,0 +1,102 @@
+{include file="public/_head" /}
+<!-- Main Container -->
+<div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+
+        <!-- Page Sidebar -->
+        {include file="public/_left" /}
+        <!-- /Page Sidebar -->
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Page Breadcrumb -->
+            <div class="page-breadcrumbs">
+                <ul class="breadcrumb">
+                    <li class="active">
+                        <i class="fa fa-home"></i>&nbsp;栏目管理
+                    </li>
+                    <li>
+                        栏目添加
+                    </li>
+                </ul>
+            </div>
+            <!-- /Page Breadcrumb -->
+            <!-- Page Body -->
+            <div class="page-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="widget radius-bordered">
+                            <div class="widget-header bordered-bottom bordered-themeprimary">
+                                <span class="widget-caption">栏目添加</span>
+                            </div>
+                            <div class="widget-body">
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="catename" class="col-sm-2 control-label no-padding-right">栏目名称</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="catename" name="catename" placeholder="栏目名称" />
+                                            <p class="help-block">请输入栏目名称</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sort" class="col-sm-2 control-label no-padding-right">排序</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="sort" name="sort" placeholder="排序" />
+                                            <p class="help-block">数字越大，排序越靠后</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-primary" id="cateAdd">添加</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Body -->
+        </div>
+        <!-- /Page Content -->
+
+    </div>
+    <!-- /Page Container -->
+    <!-- Main Container -->
+
+</div>
+
+{include file="public/_js" /}
+<script>
+    $(function () {
+        $('#cateAdd').click(function () {
+            $.ajax({
+                url:"{:url('admin/cate/add')}",
+                type:'post',
+                data:$('form').serialize(),
+                dataType:'json',
+                success:function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon:6,
+                            time:2000
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    }else {
+                        layer.open({
+                            title:'栏目添加失败',
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+<!--  /Body -->
+</html>
