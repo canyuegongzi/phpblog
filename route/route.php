@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
+Route::rule('/', 'index/index/index', 'get');
 Route::group('admin', function (){
     Route::rule('/', 'admin/index/login', 'get|post');
     Route::rule('register', 'admin/index/register', 'get|post');
@@ -25,4 +25,13 @@ Route::group('admin', function (){
     Route::rule('articletop', 'admin/article/top', 'post');
     Route::rule('articleedit/[:id]', 'admin/article/edit', 'get|post');
     Route::rule('articledel', 'admin/article/del', 'post');
+    Route::rule('memberlist', 'admin/member/all', 'get');
+    Route::rule('memberadd', 'admin/member/add', 'get|post');
+    Route::rule('memberedit/[:id]', 'admin/member/edit', 'get|post');
+    Route::rule('memberdel', 'admin/member/del', 'post');
+    Route::rule('adminlist', 'admin/admin/all', 'get');
+    Route::rule('adminadd', 'admin/admin/add', 'get|post');
+    Route::rule('adminstatus', 'admin/admin/status', 'post');
+    Route::rule('adminedit/[:id]', 'admin/admin/edit', 'get|post');
+    Route::rule('admindel', 'admin/admin/del', 'post');
 });

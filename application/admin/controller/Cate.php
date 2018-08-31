@@ -81,11 +81,11 @@ class Cate extends Base
     //栏目删除
     public function del()
     {
-        $cateInfo = model('Cate')/*->with('article,article.comments')*/->find(input('post.id'));
+        $cateInfo = model('Cate')->with('article')/*with('article,article.comments')*/->find(input('post.id'));
         /*foreach ($cateInfo['article'] as $k => $v) {
             $v->together('comments')->delete();
         }*/
-        $result = $cateInfo/*->together('article')*/->delete();
+        $result = $cateInfo->together('article')->delete();
         if ($result) {
             $this->success('栏目删除成功！', 'admin/cate/list');
         }else {

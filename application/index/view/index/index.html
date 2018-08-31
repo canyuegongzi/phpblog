@@ -1,0 +1,43 @@
+{extend name="public/base" /}
+{block name="title"}
+{$catename|default="梦中程序员"}--{$webInfo.webname}
+{/block}
+
+{block name="content"}
+<div class="jumbotron">
+    <h1 class="animated fadeInDown">梦中程序员！</h1>
+    <p class="animated shake">梦中程序员是一个教学级博客系统，目前使用ThinkPHP5.1和Laravel5.5框架各开发一个，网站暂时只提供博文浏览功能，视频功能、留言功能、投稿功能、收益功能、推荐功能稍后开放。</p>
+    <h2 class="animated fadeInUp">拜师QQ: <a href="http://wpa.qq.com/msgrd?v=3&uin=305530751&site=qq&menu=yes" target="_blank">305530751</a></h2>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-8">
+        <div class="page-header h3">{$catename|default="文章"}列表</div>
+        <div class="article-list">
+            {volist name="articles" id="vo"}
+            <div class="article-list-item">
+                <a href="{:url('index/article/info', ['id' => $vo.id])}" class="title">{$vo.title}</a>
+                <div class="info">
+                    <span class="author">作者：{$vo.author}</span>-
+                    <span class="time">发布时间：{$vo.create_time}</span>-
+                    <span class="read">阅读：{$vo.click}</span>-
+                    <span class="comment">评论：{$vo.comm_num}</span>
+                </div>
+            </div>
+            {/volist}
+        </div>
+        <nav class="">
+            {$articles->render()|raw}
+        </nav>
+    </div>
+    <div class="col-sm-12 col-md-4">
+        <div class="page-header h3">推荐文章</div>
+        <div class="topic-list">
+            {volist name="topArticles" id="vo"}
+            <div class="topic-list-item">
+                <a href="{:url('index/article/info', ['id' => $vo.id])}" class="title">{$vo.title}</a>
+            </div>
+            {/volist}
+        </div>
+    </div>
+</div>
+{/block}

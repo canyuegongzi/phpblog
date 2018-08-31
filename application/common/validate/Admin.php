@@ -6,7 +6,9 @@
  * Time: 18:53
  */
 namespace app\common\validate;
+
 use think\Validate;
+
 class Admin extends Validate
 {
     protected $rule = [
@@ -19,13 +21,36 @@ class Admin extends Validate
         'email|邮箱' => 'require|email|unique:admin',
         'code|验证码' => 'require'
     ];
-    //登录场景验证
-    public function sceneLogin(){
+
+    //登录验证场景
+    public function sceneLogin()
+    {
         return $this->only(['username', 'password']);
     }
+
     //注册场景验证
-    public function sceneRegister(){
+    public function sceneRegister()
+    {
         return $this->only(['username', 'password', 'conpass', 'nickname', 'email'])
             ->append('username', 'unique:admin');
+    }
+
+    //重置密码验证场景
+    public function sceneReset()
+    {
+        return $this->only(['code']);
+    }
+
+    //添加场景
+    public function sceneAdd()
+    {
+        return $this->only(['username', 'password', 'conpass', 'nickname', 'email'])
+            ->append('username', 'unique:admin');
+    }
+
+    //编辑场景
+    public function sceneEdit()
+    {
+        return $this->only(['oldpass', 'newpass', 'nickname']);
     }
 }

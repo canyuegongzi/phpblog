@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Marvin
+ * Date: 2018/8/30
+ * Time: 15:25
+ */
 
 namespace app\common\model;
 
@@ -10,11 +16,12 @@ class Cate extends Model
     //软删除
     use SoftDelete;
 
-    /*//关联文章
+    //关联文章
     public function article()
     {
+        //关联数据库模型hasMany
         return $this->hasMany('Article', 'cate_id', 'id');
-    }*/
+    }
 
     //栏目添加
     public function add($data)

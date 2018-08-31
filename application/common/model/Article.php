@@ -24,6 +24,7 @@ class Article extends Model
     //管理评论
     public function comments()
     {
+        //关联评论的数据库
         return $this->hasMany('Comment', 'article_id', 'id');
     }
 

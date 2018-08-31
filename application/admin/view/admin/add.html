@@ -12,10 +12,12 @@
             <!-- Page Breadcrumb -->
             <div class="page-breadcrumbs">
                 <ul class="breadcrumb">
-                    <li>
-                        <i class="fa fa-home"></i>&nbsp;文章管理
+                    <li class="active">
+                        <i class="fa fa-home"></i>&nbsp;管理员管理
                     </li>
-                    <li>文章添加</li>
+                    <li>
+                        管理员添加
+                    </li>
                 </ul>
             </div>
             <!-- /Page Breadcrumb -->
@@ -25,57 +27,43 @@
                     <div class="col-xs-12">
                         <div class="widget radius-bordered">
                             <div class="widget-header bordered-bottom bordered-themeprimary">
-                                <span class="widget-caption">文章添加</span>
+                                <span class="widget-caption">管理员添加</span>
                             </div>
                             <div class="widget-body">
-                                <form action="" class="form-horizontal">
-                                    <input type="hidden" name="id" value="{$articleInfo.id}">
+                                <form class="form-horizontal">
                                     <div class="form-group">
-                                        <label for="title" class="control-label col-sm-2">文章标题</label>
+                                        <label for="username" class="col-sm-2 control-label no-padding-right">账号</label>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="title" name="title" placeholder="文章标题" value="{$articleInfo.title}" />
+                                            <input type="text" class="form-control" id="username" name="username" placeholder="填写账号" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tags" class="col-sm-2 control-label no-padding-right">标签</label>
+                                        <label for="password" class="col-sm-2 control-label no-padding-right">密码</label>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="tags" name="tags" placeholder="标签" value="{$articleInfo.tags}">
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="填写密码" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="checkbox col-sm-offset-2 col-sm-6">
-                                            <label>
-                                                <input type="checkbox" name="is_top" {if $articleInfo.is_top == 1} checked {if} value="1">
-                                                <span class="text">是否推荐</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="cateid" class="control-label col-sm-2">所属导航</label>
+                                        <label for="conpass" class="col-sm-2 control-label no-padding-right">确认密码</label>
                                         <div class="col-sm-6">
-                                            <select id="cateid" name="cateid" class="form-control">
-                                                <option value="">请选择</option>
-                                                {volist name="cates" id="vo"}
-                                                <option value="{$vo.id}" {if $articleInfo.cate_id == $vo.id}selected {if}>{$vo.catename}</option>
-                                                {/volist}
-                                            </select>
+                                            <input type="password" class="form-control" id="conpass" name="conpass" placeholder="确认密码" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="desc" class="col-sm-2 control-label no-padding-right">文章概要</label>
+                                        <label for="nickname" class="col-sm-2 control-label no-padding-right">昵称</label>
                                         <div class="col-sm-6">
-                                            <textarea name="desc" id="desc" cols="30" rows="5" class="form-control">{$articleInfo.desc}</textarea>
+                                            <input type="text" class="form-control" id="nickname" name="nickname" placeholder="填写昵称" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="content" class="control-label col-sm-2">文章内容</label>
+                                        <label for="email" class="col-sm-2 control-label no-padding-right">邮箱</label>
                                         <div class="col-sm-6">
-                                            <textarea name="content" id="content" cols="30" rows="10" class="">{$articleInfo.content}</textarea>
+                                            <input type="text" class="form-control" id="email" name="email" placeholder="填写邮箱" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-6">
-                                            <button class="btn btn-primary" id="articleEdit">修改</button>
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-primary" id="adminAdd">添加</button>
                                         </div>
                                     </div>
                                 </form>
@@ -95,15 +83,11 @@
 </div>
 
 {include file="public/_js" /}
-<script src="/static/lib/ueditor/ueditor.config.js"></script>
-<script src="/static/lib/ueditor/ueditor.all.js"></script>
 <script>
     $(function () {
-        UE.getEditor('content');
-
-        $('#articleEdit').click(function () {
+        $('#adminAdd').click(function () {
             $.ajax({
-                url:"{:url('admin/article/edit')}",
+                url:"{:url('admin/admin/add')}",
                 type:'post',
                 data:$('form').serialize(),
                 dataType:'json',
@@ -117,7 +101,7 @@
                         });
                     }else {
                         layer.open({
-                            title:'文章编辑失败',
+                            title:'管理员添加失败',
                             content:data.msg,
                             icon:5,
                             anim:6
