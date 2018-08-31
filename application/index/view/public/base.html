@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{block name="title"}残月公子{/block}</title>
+    <link rel="stylesheet" href="/static/index/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/index/css/animate.css" />
+    <link rel="stylesheet" href="/static/index/css/index.css" />
+    {block name="css"}
+    {/block}
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="{:url('index/index/index')}" class="navbar-brand">残月公子</a>
+        </div>
+        <div class="navbar-menu collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="{:url('index/index/index')}">首页</a></li>
+                {volist name="cates" id="vo"}
+                <li><a href="{:url('index/index/index', ['id' => $vo.id])}">{$vo.catename}</a></li>
+                {/volist}
+                <li><a href="{:url('index/video/all')}">视频教程</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {if session('?index.id')}
+                <li><a href="#">{:session('index.nickname')}</a></li>
+                <li><a href="#" id="loginout">退出</a></li>
+                {else /}
+                <li><a href="{:url('index/index/login')}">登录</a></li>
+                <li><a href="{:url('index/index/register')}">注册</a></li>
+                {/if}
+                <li><a href="#" id="post">投稿</a></li>
+            </ul>
+            <form action="{:url('index/index/search')}" class="navbar-form navbar-right">
+                <div class="form-group">
+                    <input type="text" class="form-control input-sm" id="search" name="keyword" placeholder="搜索" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default btn-sm">搜索</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    {block name="content"}
+
+    {/block}
+</div>
+{block name="footer"}
+<div class="footer">
+    <p>Copyright 2018 <a href="#">{$webInfo.copyright}</a> All Rights Reserved</p>
+</div>
+{/block}
+
+<script src="/static/index/js/jquery-3.3.1.min.js"></script>
+<script src="/static/index/js/bootstrap.min.js"></script>
+<script src="/static/lib/layer/layer.js"></script>
+<script>
+    $(function () {
+        $('#loginout').click(function () {
+            $.ajax({
+                url:"{:url('index/index/loginout')}",
+                type:'post',
+                dataType:'json',
+                success:function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {
+                            icon:6,
+                            time:2000
+                        }, function () {
+                            location.href = data.url;
+                        });
+                    }else {
+                        layer.open({
+                            title:'退出失败',
+                            content:data.msg,
+                            icon:5,
+                            anim:6
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+        $('#post').click(function () {
+            var status = "{:session('?index.id')}";
+            if (!"{:session('?index.id')}") {
+                layer.msg('请先登录', {
+                    icon:5,
+                    time:2000
+                }, function () {
+                    location.href = "{:url('index/index/login')}";
+                });
+            }else {
+                location.href = "{:url('index/article/post')}";
+            }
+            return false;
+        });
+    });
+</script>
+{block name="js"}
+{/block}
+</body>
+</html>

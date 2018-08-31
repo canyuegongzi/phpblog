@@ -3,7 +3,7 @@
 namespace app\common\model;
 
 use think\Model;
-
+use think\model\concern\SoftDelete;
 class Comment extends Model
 {
     //软删除

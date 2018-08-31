@@ -41,14 +41,15 @@ function mailto($to, $title, $content)
         exception($mail->ErrorInfo, 1001);
     }
     //把span字符串替换成a
-    function replace($data)
-    {
-        return str_replace('span', 'a', $data);
-    }
+
+}
+function replace($data)
+{
+    return str_replace('span', 'a', $data);
+}
 
 //把字符串转换为数组
-    function strToArray($data)
-    {
-        return explode('|', $data);
-    }
+function strToArray($data)
+{
+    return explode('|', $data);
 }

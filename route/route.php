@@ -8,7 +8,19 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+Route::rule('cate/:id', 'index/index/index', 'get');
 Route::rule('/', 'index/index/index', 'get');
+Route::rule('article-<id>', 'index/article/info', 'get');
+Route::rule('register', 'index/index/register', 'get|post');
+Route::rule('login', 'index/index/login', 'get|post');
+Route::rule('loginout', 'index/index/loginout', 'post');
+Route::rule('search', 'index/index/search', 'get');
+Route::rule('comment', 'index/article/comm', 'post');
+Route::rule('post', 'index/article/post', 'get|post');
+Route::rule('video', 'index/video/all', 'get');
+Route::rule('videolist/:id/[:video_id]', 'index/video/video', 'get');
+Route::rule('videocomments', 'index/video/comments', 'post');
+Route::miss('index/index/miss');
 Route::group('admin', function (){
     Route::rule('/', 'admin/index/login', 'get|post');
     Route::rule('register', 'admin/index/register', 'get|post');
@@ -34,4 +46,8 @@ Route::group('admin', function (){
     Route::rule('adminstatus', 'admin/admin/status', 'post');
     Route::rule('adminedit/[:id]', 'admin/admin/edit', 'get|post');
     Route::rule('admindel', 'admin/admin/del', 'post');
+    Route::rule('commemt/[:id]', 'admin/comment/all', 'get');
+    Route::rule('commentdel', 'admin/comment/del', 'post');
+    Route::rule('set', 'admin/system/set', 'get|post');
+    Route::rule('up', 'admin/article/up', 'post');
 });
