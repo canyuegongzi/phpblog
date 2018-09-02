@@ -81,8 +81,7 @@ class Index extends Base
         $catename = input('keyword');
         $articles = model('Article')->where($where)->order('create_time', 'desc')->paginate(5);
         $viewData = [
-            'articles' => $articles,
-            'catename' => $catename
+            'articles' => $articles
         ];
         $this->assign($viewData);
         return view('index');

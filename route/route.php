@@ -8,6 +8,10 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+Route::pattern([
+    'id' => '\d+',
+    'video_id' => '\d+'
+]);
 Route::rule('cate/:id', 'index/index/index', 'get');
 Route::rule('/', 'index/index/index', 'get');
 Route::rule('article-<id>', 'index/article/info', 'get');
